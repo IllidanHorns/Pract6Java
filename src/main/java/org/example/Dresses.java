@@ -1,16 +1,27 @@
 package org.example;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Dresses {
-
     Pricess pricess;
     public ArrayList<String> choiced_dresses =new ArrayList<String>();
     public ArrayList<String> choiced_decorations =new ArrayList<String>();
     private String[] dresses = {"Красное", "Синие", "Зелёное", "Розовое", "Белое", "Золотое"};
     private String[] decorations = {"Колье", "Браслет", "Серьги"};
+    static Log myLog;
+
+    static {
+        try{
+            myLog = new Log("logger.log");
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
 
     public Dresses(Pricess _pricess) {
         pricess = _pricess;
@@ -34,12 +45,14 @@ public class Dresses {
             }
             else
             {
+                myLog.logger.warning("Пользователь ввёл несуществующий пункт выбора платья!");
                 System.out.println("Ошибка ввода. Такого платья нет в списке!");
                 scanner.next();
             }
         }
         catch (InputMismatchException e)
         {
+            myLog.logger.warning("Пользователь ввёл неправильный ввод выбора платья!");
             System.out.println("Ошибка ввода. Попробуйте снова.");
             scanner.next();
         }
@@ -62,12 +75,14 @@ public class Dresses {
             }
             else
             {
+                myLog.logger.warning("Пользователь ввёл несуществующий пункт выбора украшения+!");
                 System.out.println("Ошибка ввода. Такого украшения нет в списке!");
                 scanner.next();
             }
         }
         catch (InputMismatchException e)
         {
+            myLog.logger.warning("Пользователь ввёл неправильный ввод выбора украшения+!");
             System.out.println("Ошибка ввода. Попробуйте снова.");
             scanner.next();
         }
@@ -142,6 +157,7 @@ public class Dresses {
                 }
             }
             catch (InputMismatchException e) {
+                myLog.logger.warning("Пользователь ввёл неправильный пункт выбора меню одежды!");
                 System.out.println("Ошибка ввода. Попробуйте снова.");
                 scanner.next(); // Очистить неверный ввод
             }

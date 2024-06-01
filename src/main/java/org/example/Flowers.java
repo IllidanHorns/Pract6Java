@@ -1,11 +1,24 @@
 package org.example;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Flowers {
     Servant servant;
+
+    static Log myLog;
+
+    static {
+        try{
+            myLog = new Log("logger.log");
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
 
     public Flowers(Servant _servant) {
         servant = _servant;
@@ -49,12 +62,14 @@ public class Flowers {
             }
             else
             {
+                myLog.logger.warning("Пользователь ввёл несуществующий пункт выбора посадки цветков!");
                 System.out.println("Ошибка ввода. Такого цветка нет в списке!");
                 scanner.next();
             }
         }
         catch (InputMismatchException e)
         {
+            myLog.logger.warning("Пользователь ввёл неправильные данные для выбора посадки цветков!");
             System.out.println("Ошибка ввода. Попробуйте снова.");
             scanner.next();
         }
@@ -82,18 +97,21 @@ public class Flowers {
                 }
                 else
                 {
-                    System.out.println("Ошибка ввода. Такого платья нет в списке!");
+                    myLog.logger.warning("Пользователь ввёл несуществующий пункт выбора цветков!");
+                    System.out.println("Ошибка ввода. Такого цветка нет в списке!");
                     scanner.next();
                 }
             }
             catch (InputMismatchException e)
             {
+                myLog.logger.warning("Пользователь ввёл неправильный ввод данных для цветка!");
                 System.out.println("Ошибка ввода. Попробуйте снова.");
                 scanner.next();
             }
         }
         else
         {
+            myLog.logger.warning("Пользователь не ввёл ни один пункт для выбора цветка!");
             System.out.println("Вы не выбрали ни одного цветка!");
         }
     }
@@ -123,11 +141,14 @@ public class Flowers {
                             break;
                         default:
                             System.out.println("Некорректный выбор.");
+                            myLog.logger.warning("Пользователь ввёл несуществующий пункт выбора действия с цветком!");
                     }
                 } else {
                     System.out.println("Выберите число от 1 до 3. Попробуйте снова.");
+                    myLog.logger.warning("Пользователь ввёл несуществующий пункт выбора действия с цветком!");
                 }
             } catch (InputMismatchException e) {
+                myLog.logger.warning("Пользователь ввёл неправильные данные для ввода действия с цветками!");
                 System.out.println("Ошибка ввода. Попробуйте снова.");
                 scanner.next(); // Очистить неверный ввод
             }
@@ -180,6 +201,7 @@ public class Flowers {
                        break;
                }
            } catch (InputMismatchException e) {
+               myLog.logger.warning("Неправильный ввод действия с цветками в меню!");
                System.out.println("Ошибка ввода. Попробуйте снова.");
                scanner.next(); // Очистить неверный ввод
            }
